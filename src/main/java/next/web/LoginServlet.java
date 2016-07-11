@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import next.model.User;
 
@@ -31,7 +32,10 @@ public class LoginServlet extends HttpServlet {
         	return;
         }
         if (user.getPassword().equals(password)) {
-        	resp.sendRedirect("/index.html");
+        	HttpSession session = req.getSession();
+        	session.setAttribute(userId, user);
+        	
+        	resp.sendRedirect("/index.jsp");
         } else {
         	resp.sendRedirect("/user/login_failed.html");
         }
