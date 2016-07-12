@@ -2,6 +2,7 @@ package next.web;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,7 +34,7 @@ public class LoginServlet extends HttpServlet {
         }
         if (user.getPassword().equals(password)) {
         	HttpSession session = req.getSession();
-        	session.setAttribute(userId, user);
+        	session.setAttribute("user", user);
         	
         	resp.sendRedirect("/index.jsp");
         } else {

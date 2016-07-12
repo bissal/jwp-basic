@@ -15,10 +15,10 @@ import org.slf4j.LoggerFactory;
 import core.db.DataBase;
 import next.model.User;
 
-@WebServlet("/user/create")
-public class CreateUserServlet extends HttpServlet {
+@WebServlet("/user/updatecomplete")
+public class UpdateUserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-	private static final Logger log = LoggerFactory.getLogger(CreateUserServlet.class);
+	private static final Logger log = LoggerFactory.getLogger(UpdateUserServlet.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,7 +28,9 @@ public class CreateUserServlet extends HttpServlet {
                 req.getParameter("name"),
                 req.getParameter("email"));
         log.debug("user : {}", user);
+        
         DataBase.addUser(user);
+        
         req.setAttribute("users", DataBase.findAll());
         RequestDispatcher rd = req.getRequestDispatcher("/user/list.jsp");
         rd.forward(req, resp);
