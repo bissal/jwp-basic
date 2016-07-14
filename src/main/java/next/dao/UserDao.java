@@ -58,40 +58,6 @@ public class UserDao {
 		};
 		
 		return selectJdbcTemplate.executeQuery(sql);
-//		Connection con = null;
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//		
-//		ArrayList<User> userList = new ArrayList<User>();
-//		try {
-//			con = ConnectionManager.getConnection();
-//			String sql = "SELECT userId, password, name, email FROM USERS";
-//			pstmt = con.prepareStatement(sql);
-//
-//			rs = pstmt.executeQuery();
-//
-//			User user = null;
-//			while (rs.next()) {
-//				user = new User(
-//						rs.getString("userId"), 
-//						rs.getString("password"), 
-//						rs.getString("name"),
-//						rs.getString("email"));
-//				userList.add(user);
-//			}
-//
-//		} finally {
-//			if (rs != null) {
-//				rs.close();
-//			}
-//			if (pstmt != null) {
-//				pstmt.close();
-//			}
-//			if (con != null) {
-//				con.close();
-//			}
-//		}
-//		return userList;
 	}
 
 	public User findByUserId(String userId) throws SQLException {
