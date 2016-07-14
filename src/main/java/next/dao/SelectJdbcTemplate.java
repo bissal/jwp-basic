@@ -24,16 +24,7 @@ public abstract class SelectJdbcTemplate {
 
 			rs = pstmt.executeQuery();
 
-			User user = null;
-			
-			while (rs.next()) {
-				user = new User(
-						rs.getString("userId"), 
-						rs.getString("password"), 
-						rs.getString("name"),
-						rs.getString("email"));
-				userList.add(user);
-			}
+			mapRow(rs, userList);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -53,6 +44,19 @@ public abstract class SelectJdbcTemplate {
 			}
 		}
 		return userList;
+	}
+
+	private void mapRow(ResultSet rs, ArrayList<User> userList) throws SQLException {
+		User user = null;
+		
+		while (rs.next()) {
+			user = new User(
+					rs.getString("userId"), 
+					rs.getString("password"), 
+					rs.getString("name"),
+					rs.getString("email"));
+			userList.add(user);
+		}
 	}
 
 	public abstract void setValues(PreparedStatement pstmt)
