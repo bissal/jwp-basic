@@ -47,6 +47,15 @@ public abstract class SelectJdbcTemplate {
 		return objList.toArray(new Object[objList.size()]);
 	}
 	
+	public Object queryForObject(String sql) {
+		Object[] objs = executeQuery(sql);
+		if (objs.length != 1) {
+			return null;
+		}
+		
+		return objs[0];
+	}
+	
 	public abstract Object mapRow(ResultSet rs) throws SQLException;
 	public abstract void setValues(PreparedStatement pstmt)
 			throws SQLException;

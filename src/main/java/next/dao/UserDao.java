@@ -21,6 +21,12 @@ public class UserDao {
 				pstmt.setString(3, user.getName());
 				pstmt.setString(4, user.getEmail());
 			}
+
+			@Override
+			public Object mapRow(ResultSet rs) throws SQLException {
+				// TODO Auto-generated method stub
+				return null;
+			}
 		};
 		
 		insertJdbcTemplate.executeUpdate(sql);
@@ -38,6 +44,12 @@ public class UserDao {
 				pstmt.setString(2, user.getName());
 				pstmt.setString(3, user.getEmail());
 			}
+
+			@Override
+			public Object mapRow(ResultSet rs) throws SQLException {
+				// TODO Auto-generated method stub
+				return null;
+			}
 		};
 		
 		updateJdbcTemplate.executeUpdate(sql);
@@ -46,7 +58,7 @@ public class UserDao {
 	public List<User> findAll() throws SQLException {
 		String sql = "SELECT userId, password, name, email FROM USERS";
 		
-		SelectJdbcTemplate selectJdbcTemplate = new SelectJdbcTemplate() {
+		JdbcTemplate selectJdbcTemplate = new JdbcTemplate() {
 			
 			@Override
 			public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -76,7 +88,7 @@ public class UserDao {
 	public User findByUserId(String userId) throws SQLException {
 		String sql = "SELECT userId, password, name, email FROM USERS WHERE userid=?";
 		
-		SelectJdbcTemplate selectJdbcTemplate = new SelectJdbcTemplate() {
+		JdbcTemplate selectJdbcTemplate = new JdbcTemplate() {
 
 			@Override
 			public Object mapRow(ResultSet rs) throws SQLException {
@@ -95,15 +107,11 @@ public class UserDao {
 			}
 		};
 		
-		Object[] objs = selectJdbcTemplate.executeQuery(sql);
-		if (objs.length != 1) {
+		Object obj = selectJdbcTemplate.queryForObject(sql);
+		if (!(obj instanceof User)) {
 			return null;
 		}
 		
-		if (!(objs[0] instanceof User)) {
-			return null;
-		}
-		
-		return (User) objs[0];
+		return (User) obj;
 	}
 }
