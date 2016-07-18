@@ -21,6 +21,27 @@ public abstract class JdbcTemplate {
 		}
 	}
 	
+	public void executeUpdate(String sql, Object ... objs) {
+		try (
+			Connection con = ConnectionManager.getConnection();
+			PreparedStatement psmt = con.prepareStatement(sql);
+		){
+			new PreparedStatementSetter() {
+				
+				@Override
+				public void setValues(PreparedStatement pstmt) throws SQLException {
+					for (int i = 0; i < objs.length; i++) {
+						pstmt.setObject(i, objs[i]);
+					}
+				}
+			};
+//			psmtSetter.setValues(psmt);
+			psmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
+		}
+	}
+	
 	public Object[] executeQuery(String sql, PreparedStatementSetter psmtSetter, RowMapper<?> mapper) {
 		
 		try (
