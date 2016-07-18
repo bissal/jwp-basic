@@ -12,12 +12,12 @@ public abstract class JdbcTemplate {
 	public void executeUpdate(String sql, PreparedStatementSetter psmtSetter) {
 		try (
 			Connection con = ConnectionManager.getConnection();
-			PreparedStatement pstmt = con.prepareStatement(sql);
+			PreparedStatement psmt = con.prepareStatement(sql);
 		){
-			psmtSetter.setValues(pstmt);
-			pstmt.executeUpdate();
+			psmtSetter.setValues(psmt);
+			psmt.executeUpdate();
 		} catch (SQLException e) {
-			throw new RuntimeException(e);
+			throw new DataAccessException(e);
 		}
 	}
 	
@@ -25,12 +25,12 @@ public abstract class JdbcTemplate {
 		
 		try (
 			Connection con = ConnectionManager.getConnection();
-			PreparedStatement pstmt = con.prepareStatement(sql);
+			PreparedStatement psmt = con.prepareStatement(sql);
 		){
-			psmtSetter.setValues(pstmt);
+			psmtSetter.setValues(psmt);
 			
 			ArrayList<Object> objList = new ArrayList<>();
-			try (ResultSet rs = pstmt.executeQuery();) {
+			try (ResultSet rs = psmt.executeQuery();) {
 				while (rs.next()) {
 					Object obj = mapper.mapRow(rs);
 					objList.add(obj);
@@ -38,14 +38,14 @@ public abstract class JdbcTemplate {
 			}
 			return objList.toArray(new Object[objList.size()]);
 		} catch (SQLException e) {
-			throw new RuntimeException(e);
+			throw new DataAccessException(e);
 		}
 	}
 	
 	public Object queryForObject(String sql, PreparedStatementSetter psmtSetter, RowMapper mapper) {
 		Object[] objs = executeQuery(sql, psmtSetter, mapper);
 		if (objs.length != 1) {
-			return null;
+			throw new InvalidResultException();
 		}
 		
 		return objs[0];
