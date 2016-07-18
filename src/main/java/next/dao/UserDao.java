@@ -13,6 +13,9 @@ public class UserDao {
 		String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
 		
 		JdbcTemplate insertJdbcTemplate = new JdbcTemplate() {
+		};
+		
+		insertJdbcTemplate.executeUpdate(sql, new PreparedStatementSetter() {
 			
 			@Override
 			public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -21,21 +24,16 @@ public class UserDao {
 				pstmt.setString(3, user.getName());
 				pstmt.setString(4, user.getEmail());
 			}
-
-			@Override
-			public Object mapRow(ResultSet rs) throws SQLException {
-				// TODO Auto-generated method stub
-				return null;
-			}
-		};
-		
-		insertJdbcTemplate.executeUpdate(sql);
+		});
 	}
 	
 	public void update(User user) throws SQLException {
 		String sql = "UPDATE USERS SET password=?, name=?, email=? WHERE userId=?";
 		
 		JdbcTemplate updateJdbcTemplate = new JdbcTemplate() {
+		};
+		
+		updateJdbcTemplate.executeUpdate(sql, new PreparedStatementSetter() {
 			
 			@Override
 			public void setValues(PreparedStatement pstmt) throws SQLException {
@@ -44,40 +42,34 @@ public class UserDao {
 				pstmt.setString(2, user.getName());
 				pstmt.setString(3, user.getEmail());
 			}
-
-			@Override
-			public Object mapRow(ResultSet rs) throws SQLException {
-				// TODO Auto-generated method stub
-				return null;
-			}
-		};
-		
-		updateJdbcTemplate.executeUpdate(sql);
+		});
 	}
 	
 	public List<User> findAll() throws SQLException {
 		String sql = "SELECT userId, password, name, email FROM USERS";
 		
 		JdbcTemplate selectJdbcTemplate = new JdbcTemplate() {
+		};
+		
+		Object[] objs = selectJdbcTemplate.executeQuery(sql, new PreparedStatementSetter() {
 			
 			@Override
 			public void setValues(PreparedStatement pstmt) throws SQLException {
 				// TODO Auto-generated method stub
 			}
-
+		}, new RowMapper() {
+			
 			@Override
 			public Object mapRow(ResultSet rs) throws SQLException {
 				User user = new User(
-							rs.getString("userId"), 
-							rs.getString("password"), 
-							rs.getString("name"),
-							rs.getString("email"));
-				
+						rs.getString("userId"), 
+						rs.getString("password"), 
+						rs.getString("name"),
+						rs.getString("email"));
+			
 				return user;
 			}
-		};
-		
-		Object[] objs = selectJdbcTemplate.executeQuery(sql);
+		});
 		List<User> userList = new ArrayList<>();
 		for (Object object : objs) {
 			userList.add((User) object);
@@ -89,7 +81,16 @@ public class UserDao {
 		String sql = "SELECT userId, password, name, email FROM USERS WHERE userid=?";
 		
 		JdbcTemplate selectJdbcTemplate = new JdbcTemplate() {
-
+		};
+		
+		Object obj = selectJdbcTemplate.queryForObject(sql, new PreparedStatementSetter() {
+			
+			@Override
+			public void setValues(PreparedStatement pstmt) throws SQLException {
+				pstmt.setString(1, userId);
+			}
+		}, new RowMapper() {
+			
 			@Override
 			public Object mapRow(ResultSet rs) throws SQLException {
 				User user = new User(
@@ -100,14 +101,7 @@ public class UserDao {
 			
 				return user;
 			}
-
-			@Override
-			public void setValues(PreparedStatement pstmt) throws SQLException {
-				pstmt.setString(1, userId);
-			}
-		};
-		
-		Object obj = selectJdbcTemplate.queryForObject(sql);
+		});
 		if (!(obj instanceof User)) {
 			return null;
 		}
