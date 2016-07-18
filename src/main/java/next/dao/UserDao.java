@@ -57,10 +57,10 @@ public class UserDao {
 			public void setValues(PreparedStatement pstmt) throws SQLException {
 				// TODO Auto-generated method stub
 			}
-		}, new RowMapper() {
+		}, new RowMapper<User>() {
 			
 			@Override
-			public Object mapRow(ResultSet rs) throws SQLException {
+			public User mapRow(ResultSet rs) throws SQLException {
 				User user = new User(
 						rs.getString("userId"), 
 						rs.getString("password"), 
@@ -89,10 +89,10 @@ public class UserDao {
 			public void setValues(PreparedStatement pstmt) throws SQLException {
 				pstmt.setString(1, userId);
 			}
-		}, new RowMapper() {
+		}, new RowMapper<User>() {
 			
 			@Override
-			public Object mapRow(ResultSet rs) throws SQLException {
+			public User mapRow(ResultSet rs) throws SQLException {
 				User user = new User(
 						rs.getString("userId"), 
 						rs.getString("password"), 

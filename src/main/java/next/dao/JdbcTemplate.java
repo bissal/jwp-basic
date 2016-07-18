@@ -21,7 +21,7 @@ public abstract class JdbcTemplate {
 		}
 	}
 	
-	public Object[] executeQuery(String sql, PreparedStatementSetter psmtSetter, RowMapper mapper) {
+	public Object[] executeQuery(String sql, PreparedStatementSetter psmtSetter, RowMapper<?> mapper) {
 		
 		try (
 			Connection con = ConnectionManager.getConnection();
@@ -42,7 +42,7 @@ public abstract class JdbcTemplate {
 		}
 	}
 	
-	public Object queryForObject(String sql, PreparedStatementSetter psmtSetter, RowMapper mapper) {
+	public Object queryForObject(String sql, PreparedStatementSetter psmtSetter, RowMapper<?> mapper) {
 		Object[] objs = executeQuery(sql, psmtSetter, mapper);
 		if (objs.length != 1) {
 			throw new InvalidResultException();
