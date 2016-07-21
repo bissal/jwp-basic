@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import next.view.View;
+
 @WebServlet(name = "dispatcher", urlPatterns = {"", "/"}, loadOnStartup = 1)
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -36,6 +38,9 @@ public class DispatcherServlet extends HttpServlet {
 			String viewName = controller.execute(req, resp);
 			if (viewName != null) {
 				move(viewName, req, resp);
+//			View view = controller.execute(req, resp);
+//			if (view != null) {
+//				view.render(req, resp);
 			}
 		} catch (Throwable e) {
 			logger.error("Exception : {}", e);
