@@ -5,7 +5,10 @@
 * RequestMapper.initMapping()에서 해시맵에 url:controller 형태로 매핑.
 
 #### 2. Tomcat 서버를 시작한 후 http://localhost:8080으로 접근시 호출 순서 및 흐름을 설명하라.
-* 
+* url패턴 "", "/" 이므로 DispatcherServlet.service() 호출.
+* RequestMapping.findController()로 "/"에 해당하는 HomeController를 찾은 후 Controller.execute() 호출.
+* HomeController.execute()에서는 index.jsp의 JspView와 questionDao의 데이터(모델)을 ModelAndView타입으로 리턴.
+* 다시 DispatcherServlet.service()에서 리턴된 ModelAndView의 View객체에 Map형태의 모델을 넘겨서 render()한다.
 
 #### 7. next.web.qna package의 ShowController는 멀티 쓰레드 상황에서 문제가 발생하는 이유에 대해 설명하라.
 * 
