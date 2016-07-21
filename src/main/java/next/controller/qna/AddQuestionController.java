@@ -24,6 +24,7 @@ public class AddQuestionController extends AbstractController {
 		log.debug("question : {}", question);
 		
 		Question savedQuestion = questionDao.insert(question);
-		return jspView("/qna/show.jsp").addObject("question", savedQuestion);
+		log.debug("saved question : {}", savedQuestion);
+		return jspView("redirect:/");//.addObject("question", savedQuestion);
 	}
 }
