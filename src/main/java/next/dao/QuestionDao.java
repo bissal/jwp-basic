@@ -14,6 +14,24 @@ import core.jdbc.RowMapper;
 import next.model.Question;
 
 public class QuestionDao {
+	public Question updateCountOfComment(Question question) {
+		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+		String sql = "UPDATE QUESTIONS SET countOfAnswer = ? WHERE questionId = ?";
+		PreparedStatementCreator psc = new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, question.getCountOfComment());
+				pstmt.setLong(2, question.getQuestionId());
+				return pstmt;
+			}
+		};
+		
+		KeyHolder keyHolder = new KeyHolder();
+		jdbcTemplate.update(psc, keyHolder);
+		return findById(keyHolder.getId());
+	}
+	
 	public Question insert(Question question) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
         String sql = "INSERT INTO QUESTIONS (writer, title, contents, createdDate) VALUES (?, ?, ?, ?)";
