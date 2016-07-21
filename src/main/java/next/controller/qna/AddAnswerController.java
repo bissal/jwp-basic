@@ -31,6 +31,6 @@ public class AddAnswerController extends AbstractController {
 		question.setCountOfComment(question.getCountOfComment() + 1);
 		questionDao.updateCountOfComment(question);
 		
-		return jsonView().addObject("answer", savedAnswer);
+		return jsonView().addObject("answer", savedAnswer).addObject("question", question);
 	}
 }

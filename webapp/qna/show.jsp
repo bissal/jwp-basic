@@ -105,6 +105,10 @@
 	</div>
 </div>
 
+<script type="text/template" id="countOfCommentTemplate">
+	<strong>{0}</strong>개의 의견
+</script>
+
 <script type="text/template" id="answerTemplate">
 	<article class="article">
 		<div class="article-header">
