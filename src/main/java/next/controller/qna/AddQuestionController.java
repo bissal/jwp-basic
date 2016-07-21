@@ -21,7 +21,7 @@ public class AddQuestionController extends AbstractController {
 		Question question = new Question(req.getParameter("writer"), 
 				req.getParameter("title"), 
 				req.getParameter("contents"));
-		log.debug("answer : {}", question);
+		log.debug("question : {}", question);
 		
 		Question savedQuestion = questionDao.insert(question);
 		return jspView("/qna/show.jsp").addObject("question", savedQuestion);
