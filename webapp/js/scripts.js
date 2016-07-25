@@ -23,9 +23,10 @@ function onSuccess(json, status){
   $(".qna-comment-slipp-articles").prepend(template);
   
   var question = json.question;
-  var countOfCommentTemplate = $("#countOfCommentTemplate").html();
-  var formattedTemplate = countOfCommentTemplate.format(question.countOfComment);
-  $(".qna-comment-count").replaceWith(formattedTemplate);
+  $(".qna-comment-count > strong").text(question.countOfComment);
+//  var countOfCommentTemplate = $("#countOfCommentTemplate").html();
+//  var formattedTemplate = countOfCommentTemplate.format(question.countOfComment);
+//  $(".qna-comment-count").replaceWith(formattedTemplate);
 }
 
 function onError(xhr, status) {
